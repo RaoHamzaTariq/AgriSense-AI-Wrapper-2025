@@ -8,8 +8,7 @@ class CropPlan(BaseModel):
     reasoning: str
     steps: list[str]
 
-
-"""""""""""
+example="""
 {
   "coord": {
     "lon": -74.006,
@@ -56,4 +55,4 @@ class CropPlan(BaseModel):
   "name": "New York",
   "cod": 200
 }
-"""""""""""
+"""
