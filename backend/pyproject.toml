@@ -9,4 +9,5 @@ dependencies = [
     "openai-agents>=0.3.3",
     "python-dotenv>=1.1.1",
     "requests>=2.32.5",
+    "rich>=14.2.0",
 ]
