@@ -1,13 +1,29 @@
 import requests, os
 from dotenv import load_dotenv
 from rich import print
+from agents import function_tool,RunContextWrapper,Agent
 
 load_dotenv()
 
 API_KEY = os.getenv("OPENWEATHER_API_KEY")
 
+def isToolAllowed(ctx:RunContextWrapper, agent:Agent):
+    if ctx.context.isPlanner:
+        return False
+    else:
+        return True
+
+@function_tool(
+        is_enabled=isToolAllowed
+)
 async def get_weather_data(city: str):
-    
+    """
+    This is used to fetch the weather data
+    Args:
+        city : str
+    Returns
+        Weather Data including temperture, pressure,windspeed or much more
+    """
     weather_url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}"
     data = requests.get(weather_url).json()
 

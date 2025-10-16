@@ -6,3 +6,6 @@ class UserInput(BaseModel):
     soil_type: Literal["Loamy", "Sandy", "Clay"]
     season: Literal["Summer", "Winter", "Monsoon"]
     duration: int
+
+class RunnerContext(BaseModel):
+    isPlanner:bool=False

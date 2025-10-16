@@ -24,3 +24,9 @@ async def get_crop_plan(user_input: UserInput):
     print(user_input)
     results = await AgriSense.Planner(user_input)
     return {"location": user_input.location, "plan": results["planner"], "crop_analysis":results["crop_analysis"], "weather_analysis":results["weather_analysis"]}
+
+@app.get("/chat")
+async def chatbot(query: str):
+    print(query)
+    result = await AgriSense.AgriChat(query)
+    return {"result": str(result)}

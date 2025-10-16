@@ -3,8 +3,10 @@ from config.model_config import config
 from multi_agents.weather_agent import weather_analyzer_agent
 from multi_agents.crop_agent import crop_analysis_agent
 from multi_agents.planner_agent import planner_agent
+from multi_agents.triage_agent import triage_agent
 from schema.models import UserInput
-from services.weather_service import get_weather_data
+from tools.weather_data import get_weather_data
+from schema.models import RunnerContext
 
 
 class AgriSenseAgentRunner:
@@ -53,7 +55,8 @@ class AgriSenseAgentRunner:
         weather_agent_result = await Runner.run(
             starting_agent=weather_analyzer_agent,
             input=weather_prompt,
-            run_config=config
+            run_config=config,
+            context=RunnerContext(isPlanner=True)
         )
 
         # STEP 3: Crop Suitability Analysis Prompt
@@ -83,7 +86,8 @@ class AgriSenseAgentRunner:
         crop_result = await Runner.run(
             starting_agent=crop_analysis_agent,
             input=crop_prompt,
-            run_config=config
+            run_config=config,
+            context=RunnerContext(isPlanner=True)
         )
 
         # STEP 4: Complete Farming Plan Prompt
@@ -119,7 +123,8 @@ class AgriSenseAgentRunner:
         planner_result = await Runner.run(
             starting_agent=planner_agent,
             input=planner_prompt,
-            run_config=config
+            run_config=config,
+            context=RunnerContext(isPlanner=True)
         )
 
         # STEP 5: Return structured results
@@ -128,3 +133,14 @@ class AgriSenseAgentRunner:
             "crop_analysis": crop_result.final_output,
             "planner": planner_result.final_output,
         }
+
+    async def AgriChat(self, query):
+        
+        result= await Runner.run(
+            starting_agent=triage_agent,
+            input=query,
+            run_config=config,
+            context=RunnerContext(isPlanner=False)
+        )
+
+        return result.final_output
