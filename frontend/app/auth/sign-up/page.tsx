@@ -94,8 +94,8 @@ export default function Page() {
                     <span className="text-xs font-semibold">RS</span>
                   </div>
                   <div>
-                    <div className="text-white font-medium text-sm">Rahul Sharma</div>
-                    <div className="text-white/70 text-xs">Farm Owner, Punjab</div>
+                    <div className="text-white font-medium text-sm">Ehsan Maqbool</div>
+                    <div className="text-white/70 text-xs">Farm Owner, Multan</div>
                   </div>
                 </div>
               </div>

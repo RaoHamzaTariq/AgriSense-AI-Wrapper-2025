@@ -93,8 +93,8 @@ export default function Page() {
                     <span className="text-xs font-semibold">PK</span>
                   </div>
                   <div>
-                    <div className="text-white font-medium text-sm">Priya Kumar</div>
-                    <div className="text-white/70 text-xs">Organic Farm, Karnataka</div>
+                    <div className="text-white font-medium text-sm">Rahul Kumar</div>
+                    <div className="text-white/70 text-xs">Organic Farm, Larkana</div>
                   </div>
                 </div>
               </div>
