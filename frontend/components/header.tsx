@@ -14,7 +14,7 @@ export default function Header() {
   const navigation = [
     { name: "Features", href: "/features", icon: BarChart3 },
     { name: "AgriChat", href: "/agrichat", icon: MessageCircle },
-    { name: "Crops", href: "/crops", icon: Sprout },
+    { name: "Planner", href: "/analyze", icon: Sprout },
     { name: "Pricing", href: "/pricing" },
     { name: "About", href: "/about" },
   ];
