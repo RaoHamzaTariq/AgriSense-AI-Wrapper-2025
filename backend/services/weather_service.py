@@ -6,7 +6,7 @@ load_dotenv()
 
 API_KEY = os.getenv("OPENWEATHER_API_KEY")
 
-async def get_weather(city: str):
+async def get_weather_data(city: str):
     
     weather_url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}"
     data = requests.get(weather_url).json()
@@ -36,4 +36,4 @@ async def get_weather(city: str):
 
 if __name__=="__main__":
 
-    print(get_weather("Karachi"))
+    print(get_weather_data("Karachi"))
