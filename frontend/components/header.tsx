@@ -15,7 +15,7 @@ export default function Header() {
     { name: "Features", href: "/features", icon: BarChart3 },
     { name: "AgriChat", href: "/agrichat", icon: MessageCircle },
     { name: "Planner", href: "/analyze", icon: Sprout },
-    { name: "Pricing", href: "/pricing" },
+    // { name: "Pricing", href: "/pricing" },
     { name: "About", href: "/about" },
   ];
 

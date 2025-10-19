@@ -13,9 +13,14 @@ def isToolAllowed(ctx:RunContextWrapper, agent:Agent):
     else:
         return True
 
-@function_tool(
-        is_enabled=isToolAllowed
-)
+from typing import Any
+
+from pydantic import BaseModel
+
+from agents import RunContextWrapper, FunctionTool
+
+
+
 async def get_weather_data(city: str):
     """
     This is used to fetch the weather data
@@ -24,7 +29,7 @@ async def get_weather_data(city: str):
     Returns
         Weather Data including temperture, pressure,windspeed or much more
     """
-    weather_url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}"
+    weather_url = f"https://api.openweathermap.org/data/2.5/weather?q={city.capitalize()}&appid={API_KEY}"
     data = requests.get(weather_url).json()
 
     # Extract key information
@@ -47,9 +52,31 @@ async def get_weather_data(city: str):
         "sunrise_unix": data["sys"].get("sunrise"),
         "sunset_unix": data["sys"].get("sunset"),
     }
+    print(important_info)
 
     return important_info
 
-if __name__=="__main__":
 
-    print(get_weather_data("Karachi"))
+
+class FunctionArgs(BaseModel):
+    city:str
+
+
+async def run_function(ctx: RunContextWrapper[Any], args: str) -> str:
+    parsed = FunctionArgs.model_validate_json(args)
+    return get_weather_data(city=parsed.city)
+
+
+get_weather_data_tool = FunctionTool(
+    name="get_weather_data",
+    description="""
+    This is used to fetch the weather data
+    Args:
+        city : str
+    Returns
+        Weather Data including temperture, pressure,windspeed or much more
+    """,
+    params_json_schema=FunctionArgs.model_json_schema(),
+    on_invoke_tool=run_function,
+    is_enabled=isToolAllowed
+)

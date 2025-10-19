@@ -23,6 +23,7 @@ planner_agent = Agent(
     Return a structured JSON plan — concise but practical.
 
     """,
-    output_type=FarmingPlan
+    output_type=FarmingPlan,
+    model=model
 )
 

@@ -29,4 +29,5 @@ async def get_crop_plan(user_input: UserInput):
 async def chatbot(query: str):
     print(query)
     result = await AgriSense.AgriChat(query)
-    return {"result": str(result)}
+    print(result)
+    return {"message": str(result)}

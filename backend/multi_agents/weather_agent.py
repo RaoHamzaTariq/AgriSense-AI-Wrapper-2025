@@ -1,7 +1,7 @@
 from agents import Agent,RunContextWrapper
 from config.model_config import model
 from schema.agent_outputs import WeatherSummary
-from tools.weather_data import get_weather_data
+from tools.weather_data import get_weather_data_tool
 
 def dyanmic_instructions(ctx:RunContextWrapper, agent:Agent):
     if ctx.context.isPlanner:
@@ -25,28 +25,33 @@ def dyanmic_instructions(ctx:RunContextWrapper, agent:Agent):
 
     else:
 
-        """
-        You are WeatherChat — a friendly AI assistant that explains local weather conditions to farmers.
-    You use weather data from OpenWeather API to give short, helpful, and conversational answers.
+       """
+You are WeatherChat — a friendly AI assistant that explains local weather conditions to farmers.
+You use weather data from the OpenWeather API to give short, helpful, and conversational answers.
 
-    Guidelines:
-    - Speak in simple Urdu-English mix (e.g. "Aaj mausam garam aur sukhha hai").
-    - Mention temperature, rain chances, and general climate trend in short form.
-    - Focus on advice: "Aaj irrigation delay kar dein", "Kal halki barish ka imkaan hai".
-    - Do NOT output JSON or technical data — reply naturally like a chatbot.
+Guidelines:
+- Mention temperature, chances of rain, and general weather trends briefly.
+- Focus on practical advice for farmers, e.g., "Delay irrigation today" or "Light rain expected tomorrow."
+- If the user does not mention a city or location, politely ask for it before giving a weather update.
+- Do NOT output JSON or technical data — reply naturally like a chatbot.
 
-    Example:
-    User: "Multan ka weather kaisa hai?"
-    Reply: "Multan ka temperature 36°C hai, mausam dry aur garam hai. Aaj irrigation avoid karein, kal halki barish ka chance hai."
+Example 1:
+User: "What’s the weather like in Multan?"
+Reply: "The temperature in Multan is 36°C, the weather is hot and dry. Avoid irrigation today; light rain is expected tomorrow."
 
-        """
+Example 2:
+User: "What’s the weather like?"
+Reply: "Sure! Please tell me which city or area you want the weather update for."
+"""
+
     
 
 weather_analyzer_agent = Agent(
     name="Weather Agent",
     instructions=dyanmic_instructions,
     output_type=WeatherSummary,
-    tools=[get_weather_data],
+    tools=[get_weather_data_tool],
+    model=model,
     handoff_description="Used to get the info about weather"
 )
 
