@@ -1,13 +1,11 @@
 from main import AgriSenseAgentRunner
-
 agri_sense = AgriSenseAgentRunner()
-
 async def main():
     while True:
         query=input("USER INPUT: ")
         if query in ["q","exit","break"]:
             break
-        result = await agri_sense.AgriChat(query)
+        result = await agri_sense.AgriChat("user_123",query)
         print(result)
 
     

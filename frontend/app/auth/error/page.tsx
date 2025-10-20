@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { AlertTriangle, ArrowLeft, Home, RefreshCw } from "lucide-react";
+import { AlertTriangle, Home, RefreshCw } from "lucide-react";
 import Link from "next/link";
 
 export default async function Page({
@@ -41,7 +41,7 @@ export default async function Page({
                 {params?.error ? (
                   <div className="space-y-3">
                     <p className="text-gray-600 leading-relaxed">
-                      We're sorry, but something unexpected happened while processing your request.
+                     {" We're sorry, but something unexpected happened while processing your request."}
                     </p>
                     <div className="bg-orange-50 rounded-xl p-4 border border-orange-200">
                       <p className="text-sm font-medium text-orange-900 mb-1">Error Code:</p>

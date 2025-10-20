@@ -64,7 +64,7 @@ export function ForgotPasswordForm({
           <CardContent className="pt-4 text-center">
             <div className="space-y-4">
               <p className="text-gray-600 leading-relaxed">
-                We've sent a password reset link to <strong className="text-emerald-700">{email}</strong>. 
+                {"We've sent a password reset link to "}<strong className="text-emerald-700">{email}</strong>. 
                 Check your inbox and follow the instructions to create a new password.
               </p>
               <div className="bg-emerald-50 rounded-xl p-4 border border-emerald-200">
@@ -142,7 +142,7 @@ export function ForgotPasswordForm({
                     <div className="space-y-1">
                       <p className="text-sm font-medium text-emerald-900">Security Notice</p>
                       <p className="text-xs text-emerald-700">
-                        The password reset link will be valid for 1 hour. Make sure to check your spam folder if you don't see the email.
+                        {"The password reset link will be valid for 1 hour. Make sure to check your spam folder if you don't see the email."}
                       </p>
                     </div>
                   </div>

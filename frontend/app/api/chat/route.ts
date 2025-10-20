@@ -5,8 +5,14 @@ export async function POST(request: NextRequest) {
     // Get the JSON body from the incoming request
     const body = await request.json();
 
-    // Forward the message body to the FastAPI backend /chat endpoint
-    const apiResponse = await fetch(`${process.env.FASTAPI_BACKEND_URL}/chat?query=${body.message}`);
+    // Prepare query parameters using message and user_id (email)
+    const query = encodeURIComponent(body.message);
+    const userId = encodeURIComponent(body.email); // assuming email is present in body
+
+    // Forward the message body and user_id to the FastAPI backend /chat endpoint
+    const apiUrl = `${process.env.FASTAPI_BACKEND_URL}/chat?query=${query}&user_id=${userId}`;
+
+    const apiResponse = await fetch(apiUrl);
 
     // If the FastAPI backend did not return a successful response
     if (!apiResponse.ok) {

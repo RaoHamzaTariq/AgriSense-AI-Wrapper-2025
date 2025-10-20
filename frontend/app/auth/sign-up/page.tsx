@@ -87,7 +87,7 @@ export default function Page() {
             <div className="space-y-4">
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
                 <p className="text-white/90 italic mb-3">
-                  "AgriSense helped me increase my crop yield by 30% while reducing water usage. The insights are incredibly accurate!"
+                  {`"AgriSense helped me increase my crop yield by 30% while reducing water usage. The insights are incredibly accurate!"`}
                 </p>
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">

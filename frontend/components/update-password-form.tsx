@@ -205,7 +205,7 @@ export function UpdatePasswordForm({
                   <div className="space-y-1">
                     <p className="text-sm font-medium text-emerald-900">Password Security</p>
                     <p className="text-xs text-emerald-700">
-                      Choose a strong password that you haven't used before. A good password includes uppercase letters, numbers, and special characters.
+                      {"Choose a strong password that you haven't used before. A good password includes uppercase letters, numbers, and special characters."}
                     </p>
                   </div>
                 </div>

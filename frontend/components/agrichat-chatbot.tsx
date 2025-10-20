@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { createClient } from '@/lib/supabase/client';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { 
@@ -11,7 +12,6 @@ import {
   Sparkles, 
   Loader2,
   MessageSquare,
-  Zap,
   Clock,
   Mic,
   MicOff
@@ -25,17 +25,11 @@ interface Message {
 }
 
 export default function AgriChat() {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      content: 'Hello! I\'m AgriSense AI Assistant. I can help you with crop recommendations, weather analysis, farming tips, and more. How can I assist you today?',
-      role: 'assistant',
-      timestamp: new Date()
-    }
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -47,6 +41,70 @@ export default function AgriChat() {
   useEffect(() => {
     scrollToBottom();
   }, [messages, isLoading]);
+
+  useEffect(() => {
+    const loadHistory = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_KEY}/api/conversation_history`, { method: 'GET' });
+        if (res.status === 401) {
+          // Not authenticated; show default greeting
+          setMessages([{
+            id: 'greet',
+            content: 'Hello! I\'m AgriSense AI Assistant. I can help you with crop recommendations, weather analysis, farming tips, and more. How can I assist you today?',
+            role: 'assistant',
+            timestamp: new Date()
+          }]);
+          return;
+        }
+        if (!res.ok) throw new Error('Failed to load history');
+        const json = await res.json();
+        const history: Message[] = (json?.data || []).map((row: any) => ({
+          id: String(row.id),
+          content: row.message,
+          role: row.role === 'assistant' ? 'assistant' : 'user',
+          timestamp: row.created_at ? new Date(row.created_at) : new Date(),
+        }));
+
+        if (history.length > 0) {
+          setMessages(history);
+        } else {
+          setMessages([{
+            id: 'greet',
+            content: 'Hello! I\'m AgriSense AI Assistant. I can help you with crop recommendations, weather analysis, farming tips, and more. How can I assist you today?',
+            role: 'assistant',
+            timestamp: new Date()
+          }]);
+        }
+      } catch {
+        setMessages([{
+          id: 'greet',
+          content: 'Hello! I\'m AgriSense AI Assistant. I can help you with crop recommendations, weather analysis, farming tips, and more. How can I assist you today?',
+          role: 'assistant',
+          timestamp: new Date()
+        }]);
+      }
+    };
+
+    loadHistory();
+  }, []);
+
+  useEffect(() => {
+    const supabase = createClient();
+
+    const init = async () => {
+      const { data } = await supabase.auth.getUser();
+      setUserEmail(data.user?.email ?? null);
+    };
+    init();
+
+    const { data: listener } = supabase.auth.onAuthStateChange((_, session) => {
+      setUserEmail(session?.user?.email ?? null);
+    });
+
+    return () => {
+      listener.subscription.unsubscribe();
+    };
+  }, []);
 
   const quickQuestions = [
     "What crops grow best in sandy soil?",
@@ -78,12 +136,12 @@ export default function AgriChat() {
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/chat', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_KEY}/api/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ message: messageToSend }),
+        body: JSON.stringify({ message: messageToSend, email: userEmail }),
       });
 
       if (!response.ok) {

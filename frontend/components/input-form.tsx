@@ -65,7 +65,7 @@ export default function InputForm() {
               <CardContent className="p-6">
                 <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
                   <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-                  What You'll Receive
+                  {"What You'll Receive"}
                 </h3>
                 <div className="space-y-4">
                   {[
@@ -154,7 +154,7 @@ export default function InputForm() {
                         <select
                           id="soilType"
                           value={formData.soilType}
-                          onChange={(e) => setFormData(prev => ({ ...prev, soilType: e.target.value as any }))}
+                          onChange={(e) => setFormData(prev => ({ ...prev, soilType: e.target.value as typeof prev.soilType }))}
                           className="w-full h-14 px-4 border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:ring-0 bg-white appearance-none transition-colors"
                         >
                           {SOIL_TYPES.map((soil) => (
@@ -176,7 +176,7 @@ export default function InputForm() {
                         <select
                           id="season"
                           value={formData.season}
-                          onChange={(e) => setFormData(prev => ({ ...prev, season: e.target.value as any }))}
+                          onChange={(e) => setFormData(prev => ({ ...prev, season: e.target.value as typeof prev.season }))}
                           className="w-full h-14 px-4 border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:ring-0 bg-white appearance-none transition-colors"
                         >
                           {SEASONS.map((season) => (

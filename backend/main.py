@@ -7,10 +7,18 @@ from multi_agents.triage_agent import triage_agent
 from schema.models import UserInput
 from tools.weather_data import get_weather_data
 from schema.models import RunnerContext
+from config.memory import MemoryStore
 
 
 class AgriSenseAgentRunner:
     
+    async def build_message_history(self, rows):
+        messages = []
+        for user_id, role, message, created_at in rows:
+            msg_role = "assistant" if role == "ai" else role
+            messages.append({"role": msg_role, "content": message})
+        return messages
+
     async def Planner(self, user_input: UserInput):
         """
         Runs the AgriSense multi-agent system:
@@ -134,13 +142,29 @@ class AgriSenseAgentRunner:
             "planner": planner_result.final_output,
         }
 
-    async def AgriChat(self, query):
-        
-        result= await Runner.run(
-            starting_agent=triage_agent,
-            input=query,
-            run_config=config,
-            context=RunnerContext(isPlanner=False)
-        )
+    async def AgriChat(self, user_id: str, query: str):
+        # Save user's new message
+        MemoryStore.save_message(user_id=user_id, role="user", message=query)
 
-        return result.final_output
+        # Fetch history from DB
+        rows = MemoryStore.get_history(user_id=user_id, limit=50)
+        history_messages = await self.build_message_history(rows)
+
+        # Add the new user message to the list as well
+        history_messages.append({"role": "user", "content": query})
+
+        # Now pass this history as part of the agent input
+        result = await Runner.run(
+            starting_agent=triage_agent,
+            input=history_messages,
+            run_config=config,
+            context=RunnerContext(isPlanner=False, message_history=history_messages)
+            # Note: I added a hypothetical parameter `message_history`; adjust based on your agent API
+        )
+        agent_output = result.final_output
+
+        # Save the agent’s response
+        MemoryStore.save_message(user_id=user_id, role="ai", message=agent_output)
+
+        return agent_output
+
