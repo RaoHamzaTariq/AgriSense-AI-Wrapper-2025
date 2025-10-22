@@ -3,12 +3,12 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-GOOGLE_API_KEY=os.getenv("GOOGLE_API_KEY")
-GOOGLE_API_BASE_URL=os.getenv("GOOGLE_GEMINI_BASE_URL")
+api_key = os.getenv("OPENAI_API_KEY")
+base_url = os.getenv("GOOGLE_GEMINI_BASE_URL")
 
 external_client = AsyncOpenAI(
-    api_key=GOOGLE_API_KEY,
-    base_url=GOOGLE_API_BASE_URL,
+    api_key=api_key,
+    base_url=base_url,
 )
 
 model = OpenAIChatCompletionsModel(
