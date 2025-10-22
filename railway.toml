@@ -1,4 +1,3 @@
 [service]
 name = "agrisense-backend"
 path = "backend"
-startCommand = "../start.sh"
