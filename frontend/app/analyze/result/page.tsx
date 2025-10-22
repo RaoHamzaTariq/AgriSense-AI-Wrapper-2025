@@ -29,9 +29,43 @@ import {
   BarChart3
 } from 'lucide-react'
 
+interface AnalysisData {
+  weather?: {
+    avg_temperature?: number;
+    humidity?: number;
+    rainfall_mm?: number;
+    climate_type?: string;
+    location?: string;
+    forecast_summary?: string;
+    risk_alerts?: string[];
+  };
+  weather_analysis?: AnalysisData['weather'];
+  crop?: {
+    suggested_crops?: string[];
+    unsuitable_crops?: string[];
+    water_requirement_level?: string;
+    expected_yield_potential?: string;
+    reasoning?: string;
+  };
+  crop_analysis?: AnalysisData['crop'];
+  plan?: {
+    primary_crop?: string;
+    primary?: string;
+    sowing_schedule?: string;
+    harvest_time?: string;
+    soil_preparation_steps?: string[];
+    irrigation_guidelines?: string[];
+    fertilizer_recommendations?: string[];
+    risk_precautions?: string[];
+    storage_advice?: string[];
+    overall_summary?: string;
+  };
+  city?: string;
+}
+
 export default function AnalyzeResultPage() {
   const router = useRouter()
-  const [data, setData] = useState<any | null>(null)
+  const [data, setData] = useState<AnalysisData | null>(null)
 
   useEffect(() => {
     try {
@@ -349,7 +383,7 @@ export default function AnalyzeResultPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Left Column */}
               <div className="space-y-4">
-                {plan?.soil_preparation_steps?.length > 0 && (
+                {!!plan?.soil_preparation_steps?.length && (
                   <Card>
                     <CardHeader className="pb-3">
                       <CardTitle className="text-sm font-medium">Soil Preparation</CardTitle>
@@ -365,7 +399,7 @@ export default function AnalyzeResultPage() {
                   </Card>
                 )}
 
-                {plan?.irrigation_guidelines?.length > 0 && (
+                {!!plan?.irrigation_guidelines?.length && (
                   <Card>
                     <CardHeader className="pb-3">
                       <CardTitle className="text-sm font-medium">Irrigation Guide</CardTitle>
@@ -384,7 +418,7 @@ export default function AnalyzeResultPage() {
 
               {/* Right Column */}
               <div className="space-y-4">
-                {plan?.fertilizer_recommendations?.length > 0 && (
+                {!!plan?.fertilizer_recommendations?.length && (
                   <Card>
                     <CardHeader className="pb-3">
                       <CardTitle className="text-sm font-medium">Fertilizer Plan</CardTitle>
@@ -400,7 +434,7 @@ export default function AnalyzeResultPage() {
                   </Card>
                 )}
 
-                {plan?.risk_precautions?.length > 0 && (
+                {!!plan?.risk_precautions?.length && (
                   <Card className="border-red-100 bg-red-50/30">
                     <CardHeader className="pb-3">
                       <CardTitle className="text-sm font-medium flex items-center gap-2">
@@ -422,7 +456,7 @@ export default function AnalyzeResultPage() {
             </div>
 
             {/* Storage Advice */}
-            {plan?.storage_advice?.length > 0 && (
+            {(plan?.storage_advice && plan.storage_advice.length > 0) && (
               <Card className="bg-amber-50/50 border-amber-200">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-sm font-medium">Storage & Harvest Advice</CardTitle>

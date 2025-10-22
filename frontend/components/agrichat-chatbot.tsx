@@ -58,7 +58,7 @@ export default function AgriChat() {
         }
         if (!res.ok) throw new Error('Failed to load history');
         const json = await res.json();
-        const history: Message[] = (json?.data || []).map((row: any) => ({
+        const history: Message[] = (json?.data || []).map((row: { id: number; message: string; role: string; created_at: string }) => ({
           id: String(row.id),
           content: row.message,
           role: row.role === 'assistant' ? 'assistant' : 'user',

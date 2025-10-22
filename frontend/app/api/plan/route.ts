@@ -31,7 +31,7 @@ export async function POST(request: Request) {
             try {
                 const err = await response.json();
                 if (err?.detail && Array.isArray(err.detail)) {
-                    message = err.detail.map((d: any) => `${d?.loc?.join('.')}: ${d?.msg}`).join('; ');
+                    message = err.detail.map((d: { loc?: string[]; msg?: string }) => `${d?.loc?.join('.')}: ${d?.msg}`).join('; ');
                 } else if (err?.message || err?.error) {
                     message = err.message || err.error;
                 }

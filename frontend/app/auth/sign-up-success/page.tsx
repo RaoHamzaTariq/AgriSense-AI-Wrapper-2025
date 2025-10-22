@@ -47,9 +47,9 @@ export default function Page() {
                   </div>
                   
                   <p className="text-gray-600 leading-relaxed">
-                    We've sent a confirmation link to your email address. 
+                    {`We've sent a confirmation link to your email address. 
                     Please click the link in the email to verify your account 
-                    and start using AgriSense.
+                    and start using AgriSense.`}
                   </p>
                 </div>
 
@@ -58,7 +58,7 @@ export default function Page() {
                   <div className="flex items-start gap-3">
                     <Sparkles className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
                     <div className="space-y-2">
-                      <p className="text-sm font-medium text-blue-900">What's Next?</p>
+                      <p className="text-sm font-medium text-blue-900">{`What's Next?`}</p>
                       <ul className="text-xs text-blue-700 space-y-1">
                         <li className="flex items-center gap-2">
                           <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>

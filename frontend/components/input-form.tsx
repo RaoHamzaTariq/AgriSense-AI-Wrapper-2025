@@ -35,8 +35,8 @@ export default function InputForm() {
       if (!res.ok) throw new Error(json?.error || 'Failed to analyze');
       sessionStorage.setItem('analysisResult', JSON.stringify(json.data));
       router.push('/analyze/result');
-    } catch (err: any) {
-      setError(err?.message || 'Something went wrong');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Something went wrong');
     } finally {
       setSubmitting(false);
     }

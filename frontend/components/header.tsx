@@ -15,7 +15,6 @@ import {
   MessageCircle, 
   Home, 
   User, 
-  CloudRain,
   LogOut
 } from "lucide-react";
 
@@ -128,7 +127,7 @@ function LogoutButton() {
 
 // AuthButton Component
 function AuthButton() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<{ email?: string } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
