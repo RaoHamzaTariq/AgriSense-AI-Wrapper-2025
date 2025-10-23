@@ -1,5 +1,25 @@
+# -------------------------
+# Core Framework
+# -------------------------
 fastapi
-openai-agents
+uvicorn
 requests
 python-dotenv
 rich
+
+# -------------------------
+# Database & ORM
+# -------------------------
+sqlalchemy
+psycopg2
+
+# -------------------------
+# AI & Agents
+# -------------------------
+openai-agents
+openai
+
+# -------------------------
+# Testing
+# -------------------------
+pytest
