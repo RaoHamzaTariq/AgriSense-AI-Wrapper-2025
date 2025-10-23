@@ -12,6 +12,7 @@ rich
 # -------------------------
 sqlalchemy
 psycopg2
+asyncpg
 
 # -------------------------
 # AI & Agents
