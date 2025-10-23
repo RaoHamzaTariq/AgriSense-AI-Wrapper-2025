@@ -2,3 +2,4 @@ fastapi
 openai-agents
 requests
 python-dotenv
+rich
