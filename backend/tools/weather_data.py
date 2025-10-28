@@ -29,9 +29,6 @@ async def get_weather_data(city: str):
     Returns
         Weather Data including temperture, pressure,windspeed or much more
     """
-    if not API_KEY:
-        raise RuntimeError("Missing OPENWEATHER_API_KEY environment variable")
-
     weather_url = f"https://api.openweathermap.org/data/2.5/weather?q={city.capitalize()}&appid={API_KEY}"
     data = requests.get(weather_url).json()
 
