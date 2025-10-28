@@ -14,10 +14,22 @@ def dynamic_instructions(ctx:RunContextWrapper,agent:Agent):
     4. Suggest an ideal sowing and harvesting window.
     5. Provide yield potential category (High, Medium, Low).
 
-    Return output strictly in JSON format following the CropRecommendation schema.
+    Return output strictly in JSON format following the CropRecommendation schema. Follow the proper schema data type
+    Example of Structured Output (Follow this structure, but do not copy values—analyze input to generate each field appropriately!):
+
+    {
+      "location": "Multan",
+      "suggested_crops": ["Cotton", "Millet"],
+      "unsuitable_crops": ["Wheat", "Potato"],
+      "reasoning": "High temperatures and low rainfall are ideal for cotton and millet, while wheat and potato require cooler and wetter climates.",
+      "water_requirement_level": "low",
+      "expected_yield_potential": "high"
+    }
+
+    IMPORTANT: Your output must always follow the above structure exactly, but generate fresh, context-based values. Do not reuse, rephrase, or copy the example content—only use it for reference on schema and format.
 
     """
-    if ctx.isPlanner == True:
+    if ctx.context.isPlanner == True:
         return prompt
     else:
         return """
@@ -25,7 +37,7 @@ You are CropChat — a friendly agriculture assistant.
 You help farmers by suggesting the best crops based on local weather and soil conditions.
 
 Guidelines:
-- Speak in a friendly and conversational tone.
+- Speak in a friendly and conversational tone, Use urdu-English mix.
 - Mention the best crop choices, suitable sowing times, and simple reasoning.
 - If the location is not mentioned, politely ask for it before giving advice.
 - Avoid technical or JSON-style output.
@@ -39,7 +51,7 @@ Example 2:
 User: "It rains a lot here. What crops are good?"
 Reply: "If rainfall is high, rice and maize are great options."
 
-Focus on being helpful and farmer-friendly.
+Focus on being helpful and farmer-friendly. 
 """
 
         
@@ -48,9 +60,7 @@ Focus on being helpful and farmer-friendly.
 
 crop_analysis_agent = Agent(
     name="Crop Analysis Agent",
-    instructions="""
-
-    """,
+    instructions=dynamic_instructions,
     output_type=CropRecommendation,
     handoff_description="Used to decide which crop should used",
     model=model

@@ -20,8 +20,25 @@ def dyanmic_instructions(ctx:RunContextWrapper, agent:Agent):
     3. Identify short-term weather risks or opportunities (e.g., drought, heavy rain).
     4. Summarize insights that can help Crop and Planner Agents make better decisions.
 
-    Always return output strictly in JSON format following the WeatherSummary schema.
-        """
+    Always return output strictly in JSON format following the WeatherSummary schema. Use correct datatype especially for float like only temperature value not it's unit
+        
+    Example of Structured Output (Use this as a template only—do not copy values or content, but strictly match the structure and data types for your response):
+
+    {
+      "location": "Multan",
+      "avg_temperature": 32.5,
+      "humidity": 58.0,
+      "rainfall_mm": 120.0,
+      "climate_type": "humid",
+      "forecast_summary": "The coming month expects scattered showers with some sunny days. No major risks, but occasional humidity spikes are expected.",
+      "risk_alerts": ["High humidity may increase risk of fungal diseases", ....],
+      "opportunities": ["Good conditions for rice and maize cultivation", ....]
+    }
+
+    IMPORTANT: Your output must always follow the above structure exactly, but generate fresh, context-based values. Do not reuse, rephrase, or copy the example content—only use it for reference on schema and format.
+
+    
+        """ 
 
     else:
 

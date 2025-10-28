@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-api_key = os.getenv("OPENAI_API_KEY")
+api_key = os.getenv("GOOGLE_API_KEY")
 base_url = os.getenv("GOOGLE_GEMINI_BASE_URL")
 
 external_client = AsyncOpenAI(

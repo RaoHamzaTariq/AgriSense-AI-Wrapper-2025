@@ -37,12 +37,12 @@ class AgriSenseAgentRunner:
         You are the **Weather Analyzer Agent**.
         Analyze the latest weather and climate conditions for agricultural planning.
 
-        **Location:** {user_input.location}
-        **season:** {user_input.season}
-        **Soil Type:** {user_input.soil_type}
-        **Farming Duration:** {user_input.duration} months
+        Location: {user_input.location}
+        season: {user_input.season}
+        Soil Type: {user_input.soil_type}
+        Farming Duration: {user_input.duration} months
 
-        **Current Weather Data:**
+        Current Weather Data:
         - Temperature: {weather_data.get('temperature_C', 'N/A')}°C
         - Feels Like: {weather_data.get('feels_like_C', 'N/A')}°C
         - Humidity: {weather_data.get('humidity', 'N/A')}%
@@ -52,12 +52,19 @@ class AgriSenseAgentRunner:
         - Cloudiness: {weather_data.get('cloudiness_percent', 'N/A')}%
         - Rainfall (mm): {weather_data.get('rainfall_mm', 'N/A')}
 
-        Please summarize:
-        - Overall climate type (e.g., humid, dry, moderate)
-        - Average temperature and rainfall trend
-        - Risks or weather-related warnings
-        - Opportunities for farming during this period
-        Provide your answer strictly in the structure of a **WeatherSummary** model.
+        Return STRICT JSON matching the WeatherSummary schema with EXACT keys and units as follows.
+        Use only numbers for temperatures (no unit symbols). Keys:
+        {{
+          "location": "{user_input.location}",
+          "avg_temperature": <float>,
+          "humidity": <float>,
+          "rainfall_mm": <float>,
+          "climate_type": <string>,
+          "forecast_summary": <string>,
+          "risk_alerts": [<string>],
+          "opportunities": [<string>]
+        }}
+        Do not include extra keys. Do not wrap in markdown. Output JSON only.
         """
 
         weather_agent_result = await Runner.run(

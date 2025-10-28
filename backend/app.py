@@ -1,5 +1,5 @@
 from typing import Literal, Union
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from main import AgriSenseAgentRunner
 from schema.models import UserInput
@@ -19,15 +19,27 @@ app.add_middleware(
 
 AgriSense = AgriSenseAgentRunner()
 
+# Welcome Route for testing
+@app.get("/")
+async def get_root():
+    return {"message":"Welcome to AgriSense"}
+
 @app.post("/plan")
 async def get_crop_plan(user_input: UserInput):
-    print(user_input)
-    results = await AgriSense.Planner(user_input)
-    return {"location": user_input.location, "plan": results["planner"], "crop_analysis":results["crop_analysis"], "weather_analysis":results["weather_analysis"]}
+    try:
+        results = await AgriSense.Planner(user_input)
+        return {"location": user_input.location, "plan": results["planner"], "crop_analysis":results["crop_analysis"], "weather_analysis":results["weather_analysis"]}
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail={"error": "PlannerFailed", "message": str(e)})
 
 @app.get("/chat")
 async def chatbot(query: str, user_id:str):
-    print(query)
-    result = await AgriSense.AgriChat(user_id=user_id, query=query)
-    print(result)
-    return {"message": str(result)}
+    try:
+        result = await AgriSense.AgriChat(user_id=user_id, query=query)
+        return {"message": str(result)}
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail={"error": "ChatFailed", "message": str(e)})

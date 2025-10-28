@@ -3,8 +3,8 @@ from typing import List, Optional
 
 class WeatherSummary(BaseModel):
     location: str
-    avg_temperature: float
-    humidity: float
+    avg_temperature: float 
+    humidity: float 
     rainfall_mm: float
     climate_type: str  # e.g., "moderate", "humid", "dry"
     forecast_summary: str
