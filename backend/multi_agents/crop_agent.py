@@ -26,8 +26,10 @@ def dynamic_instructions(ctx:RunContextWrapper,agent:Agent):
       "expected_yield_potential": "high"
     }
 
-    IMPORTANT: Your output must always follow the above structure exactly, but generate fresh, context-based values. Do not reuse, rephrase, or copy the example content—only use it for reference on schema and format.
-
+    IMPORTANT: 
+    - Your output must always follow the above structure exactly.
+    - Do not reuse, rephrase, or copy the example content—only use it for schema and format reference.
+    - Ensure the response is detailed, specific, and context-based, reflecting expert-level agricultural analysis.
     """
     if ctx.context.isPlanner == True:
         return prompt
